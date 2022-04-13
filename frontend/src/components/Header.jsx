@@ -15,8 +15,8 @@ const Header = () => {
           <Navbar.Brand href="/">E-Commerce</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="ml-auto">
-              <Nav.Link href="/cart">
+            <Nav style={{ marginLeft: "auto" }}>
+              <Nav.Link href="/cart" style={{ marginRight: "1.5rem" }}>
                 <i className="fas fa-shopping-cart"></i> Cart
               </Nav.Link>
               <Nav.Link href="/login">

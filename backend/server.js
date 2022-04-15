@@ -1,14 +1,19 @@
-import express from "express";
+import express, { json } from "express";
 const app = express();
 import dotenv from "dotenv";
 import connectionDB from "./config/db.js";
 import productRouter from "./routes/product.js";
+import userRouter from "./routes/user.js";
 import { notFound, errorHandle } from "./middleware/errorMiddleware.js";
 
 dotenv.config();
 connectionDB();
 
+app.use(express.json());
+
 app.use("/api/products", productRouter);
+app.use("/api/users", userRouter);
+
 app.use(notFound);
 app.use(errorHandle);
 

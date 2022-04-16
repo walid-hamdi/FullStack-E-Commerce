@@ -2,7 +2,7 @@ import expressAsyncHandler from "express-async-handler";
 import JWT from "jsonwebtoken";
 import User from "../models/user.js";
 
-const profileMiddleWare = expressAsyncHandler(async (req, res, next) => {
+const protect = expressAsyncHandler(async (req, res, next) => {
   let token;
   if (
     req.headers.authorization &&
@@ -26,4 +26,4 @@ const profileMiddleWare = expressAsyncHandler(async (req, res, next) => {
   }
 });
 
-export { profileMiddleWare };
+export { protect };

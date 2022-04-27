@@ -13,7 +13,9 @@ import {
   USER_UPDATE_PROFILE_FAIL,
   USER_UPDATE_PROFILE_REQUEST,
   USER_UPDATE_PROFILE_SUCCESS,
+  USER_DETAILS_RESET,
 } from "../constants/userConstants";
+import { LIST_MY_ORDER_RESET } from "../constants/orderConstants";
 
 export const login = (email, password) => async (dispatch) => {
   try {
@@ -44,10 +46,9 @@ export const login = (email, password) => async (dispatch) => {
 
 export const logout = () => (dispatch) => {
   localStorage.removeItem("userInfo");
-
-  dispatch({
-    type: USER_LOGOUT,
-  });
+  dispatch({ type: USER_LOGOUT });
+  dispatch({ type: LIST_MY_ORDER_RESET });
+  dispatch({ type: USER_DETAILS_RESET });
 };
 
 export const register = (name, email, password) => async (dispatch) => {
@@ -94,7 +95,6 @@ export const profile = (id) => async (dispatch, getStates) => {
 
     const config = {
       headers: {
-        "Content-Type": "application/json",
         Authorization: `Bearer ${userInfo.token}`,
       },
     };
@@ -134,6 +134,7 @@ export const updateUserProfile = (user) => async (dispatch, getStates) => {
       type: USER_UPDATE_PROFILE_SUCCESS,
       payload: data,
     });
+    localStorage.setItem("userInfo", JSON.stringify(data));
   } catch (error) {
     dispatch({
       type: USER_UPDATE_PROFILE_FAIL,

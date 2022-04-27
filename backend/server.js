@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import connectionDB from "./config/db.js";
 import productRouter from "./routes/product.js";
 import userRouter from "./routes/user.js";
+import orderRouter from "./routes/order.js";
 import { notFound, errorHandle } from "./middleware/errorMiddleware.js";
 
 dotenv.config();
@@ -13,6 +14,11 @@ app.use(express.json());
 
 app.use("/api/products", productRouter);
 app.use("/api/users", userRouter);
+app.use("/api/order", orderRouter);
+
+app.get("/api/config/paypal", (req, res) => {
+  res.send(process.env.PAYPAL_CLIENT_ID);
+});
 
 app.use(notFound);
 app.use(errorHandle);

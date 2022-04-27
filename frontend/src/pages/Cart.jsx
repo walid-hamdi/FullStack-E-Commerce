@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { addToCart, removeFromCart } from "../actions/cartActions";
@@ -18,13 +18,20 @@ import { Link } from "react-router-dom";
 const Cart = () => {
   const { id, quantity } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { cartItems } = useSelector((state) => state.cart);
+  const { userInfo } = useSelector((state) => state.userLogin);
 
   const removeItemFromCart = (id) => {
     dispatch(removeFromCart(id));
   };
-  const checkoutProcess = () => {};
+  const checkoutProcess = () => {
+    // if not login redirect to login
+    if (!userInfo) return navigate("/login");
+
+    navigate("/shipping");
+  };
 
   useEffect(() => {
     if (id) {

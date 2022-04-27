@@ -1,5 +1,3 @@
-import { Spinner } from "react-bootstrap";
-
 const loading = () => {
   return (
     <div className="text-center">

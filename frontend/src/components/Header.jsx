@@ -35,7 +35,7 @@ const Header = () => {
               </LinkContainer>
               {userInfo ? (
                 <NavDropdown
-                  id="nav-dropdown-dark-example"
+                  id="nav-dropdown-profile"
                   title={userInfo.name}
                   menuVariant="dark"
                 >
@@ -52,6 +52,23 @@ const Header = () => {
                     <i className="fa fa-user"></i> Sign In
                   </Nav.Link>
                 </LinkContainer>
+              )}
+              {userInfo && userInfo.isAdmin && (
+                <NavDropdown
+                  id="nav-dropdown-dark-admin"
+                  title="Admin"
+                  menuVariant="dark"
+                >
+                  <LinkContainer to="admin/userlist">
+                    <NavDropdown.Item>Users</NavDropdown.Item>
+                  </LinkContainer>
+                  <LinkContainer to="admin/productlist">
+                    <NavDropdown.Item>Products</NavDropdown.Item>
+                  </LinkContainer>
+                  <LinkContainer to="admin/orderlist">
+                    <NavDropdown.Item>Orders</NavDropdown.Item>
+                  </LinkContainer>
+                </NavDropdown>
               )}
             </Nav>
           </Navbar.Collapse>

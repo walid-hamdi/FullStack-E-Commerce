@@ -14,6 +14,16 @@ import {
   USER_UPDATE_PROFILE_REQUEST,
   USER_UPDATE_PROFILE_SUCCESS,
   USER_DETAILS_RESET,
+  USER_LIST_REQUEST,
+  USER_LIST_SUCCESS,
+  USER_LIST_FAIL,
+  USER_LIST_RESET,
+  USER_REMOVE_REQUEST,
+  USER_REMOVE_SUCCESS,
+  USER_REMOVE_FAIL,
+  USER_UPDATE_BY_ADMIN_SUCCESS,
+  USER_UPDATE_BY_ADMIN_FAIL,
+  USER_UPDATE_BY_ADMIN_REQUEST,
 } from "../constants/userConstants";
 import { LIST_MY_ORDER_RESET } from "../constants/orderConstants";
 
@@ -49,6 +59,7 @@ export const logout = () => (dispatch) => {
   dispatch({ type: USER_LOGOUT });
   dispatch({ type: LIST_MY_ORDER_RESET });
   dispatch({ type: USER_DETAILS_RESET });
+  dispatch({ type: USER_LIST_RESET });
 };
 
 export const register = (name, email, password) => async (dispatch) => {
@@ -59,7 +70,7 @@ export const register = (name, email, password) => async (dispatch) => {
 
     const config = { headers: { "Content-Type": "application/json" } };
     const { data } = await axios.post(
-      "/api/users/register",
+      "/api/users",
       { name, email, password },
       config
     );
@@ -138,6 +149,98 @@ export const updateUserProfile = (user) => async (dispatch, getStates) => {
   } catch (error) {
     dispatch({
       type: USER_UPDATE_PROFILE_FAIL,
+      payload: "Error",
+    });
+  }
+};
+// FOR ADMIN
+export const getUserList = () => async (dispatch, getStates) => {
+  try {
+    dispatch({
+      type: USER_LIST_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getStates();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+    const { data } = await axios.get(`/api/users`, config);
+
+    dispatch({
+      type: USER_LIST_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: USER_LIST_FAIL,
+      payload: "Error",
+    });
+  }
+};
+// FOR ADMIN
+export const removeUser = (id) => async (dispatch, getStates) => {
+  try {
+    dispatch({
+      type: USER_REMOVE_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getStates();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+    await axios.delete(`/api/users/${id}`, config);
+
+    dispatch({
+      type: USER_REMOVE_SUCCESS,
+    });
+  } catch (error) {
+    dispatch({
+      type: USER_REMOVE_FAIL,
+      payload: "Error",
+    });
+  }
+};
+// FOR ADMIN
+export const updateUserByAdmin = (user) => async (dispatch, getStates) => {
+  try {
+    dispatch({
+      type: USER_UPDATE_BY_ADMIN_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getStates();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+    const { data } = await axios.put(`/api/users/${user._id}`, user, config);
+
+    dispatch({
+      type: USER_UPDATE_BY_ADMIN_SUCCESS,
+    });
+    dispatch({
+      type: USER_DETAILS_SUCCESS,
+      payload: data,
+    });
+    dispatch({ type: USER_DETAILS_RESET });
+  } catch (error) {
+    dispatch({
+      type: USER_UPDATE_BY_ADMIN_FAIL,
       payload: "Error",
     });
   }

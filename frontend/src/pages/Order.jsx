@@ -1,17 +1,25 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { detailsOrder, payOrder } from "../actions/orderActions";
-import { useParams } from "react-router-dom";
+import {
+  deliveredOrder,
+  detailsOrder,
+  payOrder,
+} from "../actions/orderActions";
+import { useNavigate, useParams } from "react-router-dom";
 import Loading from "../components/Loading";
 import Message from "../components/Message";
-import { Col, Image, ListGroup, Row } from "react-bootstrap";
+import { Button, Col, Image, ListGroup, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { PayPalButtons } from "@paypal/react-paypal-js";
-import { PAY_ORDER_RESET } from "../constants/orderConstants";
+import {
+  DELIVERED_ORDER_RESET,
+  PAY_ORDER_RESET,
+} from "../constants/orderConstants";
 
 const Order = () => {
+  const navigate = useNavigate();
   const { loading, error, orderDetails } = useSelector(
     (state) => state.detailsOrder
   );
@@ -24,20 +32,36 @@ const Order = () => {
     );
   }
 
-  const amount = orderDetails.totalPrice;
+  // const amount = orderDetails.totalPrice;
+  const amount = 12;
   const currency = "USD";
   const style = { layout: "vertical" };
 
   const [sdkReady, setSdkReady] = useState(false);
 
-  const orderPay = useSelector((state) => state.orderPay);
-  const { loading: loadingPay, success: successPay } = orderPay;
+  const {
+    loading: loadingPay,
+    success: successPay,
+    // error: errorPay,
+  } = useSelector((state) => state.orderPay);
+
+  const {
+    // loading: loadingDelivered,
+    success: successDelivered,
+    // error: ErrorDelivered,
+  } = useSelector((state) => state.orderDelivered);
+
+  const { userInfo } = useSelector((state) => state.userLogin);
 
   const { id } = useParams();
 
   const dispatch = useDispatch();
 
   useEffect(() => {
+    if (!userInfo) {
+      return navigate("/login");
+    }
+
     const addPaypal = async () => {
       const { data: clientId } = await axios.get("api/config/paypal");
       console.log(clientId);
@@ -51,8 +75,14 @@ const Order = () => {
       document.body.appendChild(script);
     };
 
-    if (successPay || !orderDetails || orderDetails._id !== id) {
+    if (
+      successPay ||
+      !orderDetails ||
+      successDelivered ||
+      orderDetails._id !== id
+    ) {
       dispatch({ type: PAY_ORDER_RESET });
+      dispatch({ type: DELIVERED_ORDER_RESET });
       dispatch(detailsOrder(id));
     } else if (!orderDetails.isPaid) {
       if (!window.paypal) {
@@ -61,10 +91,22 @@ const Order = () => {
         setSdkReady(true);
       }
     }
-  }, [dispatch, orderDetails, id, successPay]);
+  }, [
+    dispatch,
+    orderDetails,
+    id,
+    successPay,
+    successDelivered,
+    userInfo,
+    navigate,
+  ]);
 
-  const successPaymentHandler = (paymentResult) => {
+  const handleSuccessPayment = (paymentResult) => {
     dispatch(payOrder(id, paymentResult));
+  };
+
+  const handleSuccessDelivered = () => {
+    dispatch(deliveredOrder(orderDetails));
   };
 
   return loading ? (
@@ -191,11 +233,26 @@ const Order = () => {
                       style={style}
                       disabled={false}
                       forceReRender={[amount, currency, style]}
-                      createOrder={successPaymentHandler}
+                      createOrder={handleSuccessPayment}
                     />
                   )}
                 </ListGroup.Item>
               )}
+
+              {userInfo &&
+                userInfo.isAdmin &&
+                orderDetails.isPaid &&
+                !orderDetails.isDelivered && (
+                  <ListGroup.Item>
+                    <Button
+                      className="btn btn-block"
+                      type="button"
+                      onClick={handleSuccessDelivered}
+                    >
+                      Mark as delivered
+                    </Button>
+                  </ListGroup.Item>
+                )}
             </ListGroup>
           </Col>
         </Row>

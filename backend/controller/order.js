@@ -68,9 +68,38 @@ const updatedOrderToPay = expressHandler(async (req, res) => {
   }
 });
 
+const updatedOrderToDelivered = expressHandler(async (req, res) => {
+  const order = await Order.findById(req.params.id);
+  const { id, status, updated_time, payer } = req.body;
+
+  if (order) {
+    order.isDelivered = true;
+    order.deliveredAt = new Date();
+
+    const updatedOrder = await order.save();
+    res.status(201).json(updatedOrder);
+  } else {
+    res.status(404);
+    throw new Error("No Delivered result found");
+  }
+});
+
 const getMyOrder = expressHandler(async (req, res) => {
   const orders = await Order.find({ user: req.user._id });
   res.json(orders);
 });
 
-export { placeOrder, getOrderById, updatedOrderToPay, getMyOrder };
+const getOrdersToAdmin = expressHandler(async (req, res) => {
+  const orders = await Order.find({}).populate("user", "id name");
+
+  res.json(orders);
+});
+
+export {
+  placeOrder,
+  getOrderById,
+  updatedOrderToPay,
+  getMyOrder,
+  getOrdersToAdmin,
+  updatedOrderToDelivered,
+};

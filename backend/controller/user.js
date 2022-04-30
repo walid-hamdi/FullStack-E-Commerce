@@ -69,27 +69,29 @@ const userProfile = expressHandler(async (req, res) => {
   }
 });
 
-const updateUser = expressHandler(async (req, res) => {
+const updateUserProfile = expressHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
-  const { name, email, password, isAdmin } = req.body;
+  const { name, email, password } = req.body;
+
   if (user) {
     user.name = name || user.name;
     user.email = email || user.email;
-    // user.isAdmin = isAdmin || user.isAdmin;
-    if (user.password === password) {
-      user.password = password || user.password;
+    if (password) {
+      user.password = password;
     }
 
     const updatedUser = await user.save();
+
     res.json({
       _id: updatedUser._id,
       name: updatedUser.name,
       email: updatedUser.email,
-      isAdmin: updatedUser.idAdmin,
+      isAdmin: updatedUser.isAdmin,
+      token: generateToken(updatedUser._id),
     });
   } else {
     res.status(404);
-    throw new Error("Can't update user not found");
+    throw new Error("User not found");
   }
 });
 
@@ -121,7 +123,7 @@ const getUserById = expressHandler(async (req, res) => {
 
 const updateUserByAdmin = expressHandler(async (req, res) => {
   const user = await User.findById(req.params.id);
-  const { name, email, password, isAdmin } = req.body;
+  const { name, email, isAdmin } = req.body;
   if (user) {
     user.name = name || user.name;
     user.email = email || user.email;
@@ -144,7 +146,7 @@ export {
   userAuth,
   userProfile,
   userRegister,
-  updateUser,
+  updateUserProfile,
   getUsers,
   deleteUser,
   getUserById,

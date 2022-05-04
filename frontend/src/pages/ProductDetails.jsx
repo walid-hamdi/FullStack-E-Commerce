@@ -7,6 +7,7 @@ import { listProductDetails, createReview } from "../actions/productActions";
 import Loading from "../components/Loading";
 import Message from "../components/Message";
 import { PRODUCT_CREATE_REVIEW_RESET } from "../constants/productConstants";
+import Meta from "../components/Meta";
 
 const ProductDetails = () => {
   const navigate = useNavigate();
@@ -50,6 +51,7 @@ const ProductDetails = () => {
 
   return (
     <div>
+      <Meta title={product.name} description={product.description} />
       <Link to="/" className="py-2 m-3 btn btn-outline-secondary">
         Go Back
       </Link>

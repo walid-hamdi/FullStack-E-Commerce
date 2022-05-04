@@ -14,6 +14,7 @@ import {
 } from "react-bootstrap";
 import Message from "../components/Message";
 import { Link } from "react-router-dom";
+import Meta from "../components/Meta";
 
 const Cart = () => {
   const { id, quantity } = useParams();
@@ -41,6 +42,8 @@ const Cart = () => {
 
   return (
     <Row className="mt-4">
+      <Meta title="Product Cart List" description="Cart shopping" />
+
       <h1 className="text-uppercase pb-3">Shopping Cart</h1>
       <Col md={8}>
         {cartItems.length === 0 ? (

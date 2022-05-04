@@ -7,6 +7,7 @@ import { LinkContainer } from "react-router-bootstrap";
 import Loading from "../components/Loading";
 import Message from "../components/Message";
 import { getMyOrdersList } from "../actions/orderActions";
+import Meta from "../components/Meta";
 
 const Profile = () => {
   const [name, setName] = useState("");
@@ -56,6 +57,8 @@ const Profile = () => {
 
   return (
     <Container>
+      <Meta title={user.name} description="profile" />
+
       <Row className="justify-content-md-center mt-5">
         <Col md={3} xs={12}>
           <Form onSubmit={handleFormSubmit}>

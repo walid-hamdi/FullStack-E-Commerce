@@ -7,6 +7,7 @@ import { Button, Col, Container, Row, Table } from "react-bootstrap";
 import { getUserList, removeUser } from "../actions/userActions";
 
 import { Link, useNavigate } from "react-router-dom";
+import Meta from "../components/Meta";
 
 function UserList() {
   const dispatch = useDispatch();
@@ -32,6 +33,8 @@ function UserList() {
 
   return (
     <Container>
+      <Meta title="List of users" description="The list of existing users" />
+
       <Row className="justify-content-md-center mt-5">
         <Col>
           <h2 className="text-uppercase py-2">User List</h2>

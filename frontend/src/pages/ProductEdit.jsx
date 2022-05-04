@@ -8,6 +8,7 @@ import Message from "../components/Message";
 import { listProductDetails, updateProduct } from "../actions/productActions";
 import { PRODUCT_UPDATE_RESET } from "../constants/productConstants";
 import axios from "axios";
+import Meta from "../components/Meta";
 
 const ProductEdit = () => {
   const [name, setName] = useState("");
@@ -93,6 +94,10 @@ const ProductEdit = () => {
 
   return (
     <Container>
+      <Meta
+        title="Editing a product"
+        description="Editing a product and change their data"
+      />
       <Row className="justify-content-md-center mt-5 align-item-center">
         <Col md={6}>
           <Link

@@ -13,6 +13,7 @@ import {
 import { useNavigate, useParams } from "react-router-dom";
 import { PRODUCT_CREATE_RESET } from "../constants/productConstants";
 import Paginate from "../components/Paginate";
+import Meta from "../components/Meta";
 
 function ProductList() {
   const dispatch = useDispatch();
@@ -67,6 +68,11 @@ function ProductList() {
 
   return (
     <Container>
+      <Meta
+        title="List of products"
+        description="The list of existing products"
+      />
+
       <Row className="align-items-center  mt-5">
         <h2>Products</h2>
         <Col>

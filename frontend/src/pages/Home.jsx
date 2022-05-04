@@ -9,6 +9,8 @@ import Loading from "../components/Loading";
 import { useParams } from "react-router-dom";
 import Paginate from "../components/Paginate";
 import TopProducts from "../components/TopProducts";
+import { Link } from "react-router-dom";
+import Meta from "../components/Meta";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -25,7 +27,17 @@ const Home = () => {
 
   return (
     <>
-      {!keyword && <TopProducts />}
+      <Meta
+        title="Welcome to our shop"
+        description="home page display different products"
+      />
+      {!keyword ? (
+        <TopProducts />
+      ) : (
+        <Link to="/" className="btn btn-secondary btn-block mt-5">
+          Go Back
+        </Link>
+      )}
       <h1 className="pt-4">Latest Products</h1>
       {loading ? (
         <Loading />

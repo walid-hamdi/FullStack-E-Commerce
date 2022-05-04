@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import CheckoutSteps from "../components/CheckoutSteps";
 import { addPaymentMethod } from "../actions/cartActions";
+import Meta from "../components/Meta";
 
 const Payment = () => {
   const { shippingAddress } = useSelector((state) => state.cart);
@@ -27,6 +28,7 @@ const Payment = () => {
 
   return (
     <Container>
+      <Meta title="Payment Process" description="Paypal method of payment" />
       <Row className="justify-content-md-center mt-5">
         <Col md={6} xs={12}>
           <CheckoutSteps step1 step2 step3 />

@@ -6,6 +6,7 @@ import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import Loading from "../components/Loading";
 import Message from "../components/Message";
 import { Link } from "react-router-dom";
+import Meta from "../components/Meta";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -28,6 +29,11 @@ const Login = () => {
 
   return (
     <Container>
+      <Meta
+        title="Login"
+        description="Login to have access to other features"
+      />
+
       <Row className="justify-content-md-center mt-5">
         <Col md={6} xs={12}>
           {loading && <Loading />}

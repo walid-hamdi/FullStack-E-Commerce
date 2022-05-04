@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Button, Col, Container, Row, Table } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { getListOrder } from "../actions/orderActions";
+import Meta from "../components/Meta";
 
 function OrderList() {
   const dispatch = useDispatch();
@@ -24,6 +25,8 @@ function OrderList() {
 
   return (
     <Container>
+      <Meta title="List of orders" description="The list of existing orders" />
+
       <Row className="justify-content-md-center mt-5">
         <Col>
           <h2 className="text-uppercase py-2">Order List</h2>

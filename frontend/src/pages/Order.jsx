@@ -17,6 +17,7 @@ import {
   DELIVERED_ORDER_RESET,
   PAY_ORDER_RESET,
 } from "../constants/orderConstants";
+import Meta from "../components/Meta";
 
 const Order = () => {
   const navigate = useNavigate();
@@ -114,6 +115,7 @@ const Order = () => {
     <Message variant="danger">{error}</Message>
   ) : (
     <>
+      <Meta title="Order Details" description="Order products" />
       {orderDetails && (
         <Row className="justify-content-md-center align-items-center mt-5">
           <Col md={8} className="mt-5">

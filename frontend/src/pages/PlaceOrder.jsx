@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import CheckoutSteps from "../components/CheckoutSteps";
 import Message from "../components/Message";
 import { placeOrder } from "../actions/orderActions";
+import Meta from "../components/Meta";
 
 const PlaceOrder = () => {
   const { cartItems, shippingAddress, paymentMethod } = useSelector(
@@ -58,6 +59,10 @@ const PlaceOrder = () => {
 
   return (
     <Container>
+      <Meta
+        title="Placing the order"
+        description="Placing the order of products"
+      />
       <Row className="justify-content-md-center align-items-center mt-5">
         <CheckoutSteps step1 step2 step3 step4 />
 

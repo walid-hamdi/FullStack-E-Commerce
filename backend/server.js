@@ -8,11 +8,16 @@ import userRouter from "./routes/user.js";
 import orderRouter from "./routes/order.js";
 import uploadRouter from "./routes/upload.js";
 import { notFound, errorHandle } from "./middleware/errorMiddleware.js";
+import morgan from "morgan";
 
 dotenv.config();
 connectionDB();
 
 app.use(express.json());
+
+if (process.env.NODE_ENV === "development") {
+  app.use(morgan("dev"));
+}
 
 app.use("/api/products", productRouter);
 app.use("/api/users", userRouter);

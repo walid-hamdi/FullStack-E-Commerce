@@ -27,7 +27,12 @@ function App() {
       <main>
         <Container>
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route index element={<Home />} />
+            <Route path="/search/:keyword" element={<Home />}>
+              <Route path="page/:pageNumber" element={<Home />} />
+            </Route>
+            <Route path="/page/:pageNumber" element={<Home />} />
+
             <Route path="/product/:id" element={<ProductDetails />} />
             <Route path="/cart">
               <Route index element={<Cart />} />
@@ -40,6 +45,10 @@ function App() {
             <Route path="/profile" element={<Profile />} />
             <Route path="admin/userlist" element={<UserList />} />
             <Route path="admin/productlist" element={<ProductList />} />
+            <Route
+              path="admin/productlist/:pageNumber"
+              element={<ProductList />}
+            />
             <Route path="admin/orderlist" element={<OrderList />} />
             <Route path="admin/user/:id/edit" element={<UserEdit />} />
             <Route path="admin/product/:id/edit" element={<ProductEdit />} />

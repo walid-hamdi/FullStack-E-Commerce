@@ -1,3 +1,4 @@
+
 Fullstack web app :
 
 - React JS
@@ -11,3 +12,4 @@ Fullstack web app :
 - Authentication and authorization (JWT)
 - Shipping order management
 - Redux for state management
+- Deployed to Heroku (https://shopyreacty.herokuapp.com/)
